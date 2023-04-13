@@ -21,7 +21,7 @@ spi = cfg["spi"]
 nrf = NRF24L01(spi, csn, ce, channel=60, payload_size=30)
 
 # Addresses (little endian)
-pipes = (b"\xe1\xf0\xf0\xf0\xf0", b"\xd2\xf0\xf0\xf0\xf0")
+pipes = ("1Node", "2Node")
 
 print("NRF24L01 transmitter\n")
 
@@ -55,7 +55,7 @@ while True:
     error_cnt = 0
     while(sent!=1):
         try:
-            sending = nrf.send(struct.pack("i",  counter)) # sending the message
+            sending = nrf.send(struct.pack("s",  chr(counter))) # sending the message
             print("'{}' sent".format(counter))
             sent = 1
         except OSError:

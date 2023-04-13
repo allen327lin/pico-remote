@@ -27,7 +27,7 @@ spi = cfg["spi"]
 nrf = NRF24L01(spi, csn, ce, channel=60, payload_size=30)
 
 # Addresses (little endian)
-pipes = (b"\xe1\xf0\xf0\xf0\xf0", b"\xd2\xf0\xf0\xf0\xf0")
+pipes = ("1Node", "2Node")
 
 nrf.open_tx_pipe(pipes[1])
 nrf.open_rx_pipe(1, pipes[0])
@@ -68,7 +68,7 @@ while True:
         
         
         
-        # utime.sleep_ms(POLL_DELAY) # delay before next listening
+        utime.sleep_ms(POLL_DELAY) # delay before next listening
             
         response = counter[0]
 
@@ -80,18 +80,18 @@ while True:
         
         
         
-        sent = 0
-        error_cnt = 0
-        while(sent!=1):
-            try:
-                nrf.send(struct.pack("i", response))
-                print("reply sent:", response)
-                sent = 1
-            except OSError:
-                error_cnt += 1
-                if(error_cnt > 100):
-                    print("Send abandoned")
-                    break
+#        sent = 0
+#        error_cnt = 0
+#        while(sent!=1):
+#            try:
+#                nrf.send(struct.pack("i", response))
+#                print("reply sent:", response)
+#                sent = 1
+#            except OSError:
+#                error_cnt += 1
+#                if(error_cnt > 100):
+#                    print("Send abandoned")
+#                    break
                 # print("Send failed")
         
         
