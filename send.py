@@ -42,21 +42,17 @@ nrf.set_tx_mode()
 
 counter = 0
 while True:
+    # allen-remote
+    uuid = "17acb8"
     
-    counter = counter + 1 # preparing the message to send
-    print("sending: '{}'".format(counter))
-    
-    
-    
-    
-    
+    print("sending: '{}'".format(uuid))
     
     sent = 0
     error_cnt = 0
     while(sent!=1):
         try:
-            sending = nrf.send(struct.pack("s",  chr(counter))) # sending the message
-            print("'{}' sent".format(counter))
+            sending = nrf.send(struct.pack("6s",  uuid)) # sending the message
+            print("'{}' sent".format(uuid))
             sent = 1
         except OSError:
             error_cnt += 1
@@ -85,8 +81,10 @@ while True:
         print("\nNo response")
 
     else:  # a response has been received
-        (response,) = struct.unpack("i", nrf.recv())
-        print ("response recue:", response)
+        buf = nrf.recv()
+        response = struct.unpack("6s", buf)[0]
+        print("message received:", response)
+        
 
     nrf.stop_listening()
 
